@@ -2,8 +2,8 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PLAVE x Line Friends 콜라보 굿즈 계산기</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>PLAVE x Line Friends 굿즈 계산기</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -11,113 +11,93 @@
       min-height: 100vh;
       background: #f5f9fc;
       font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
-      padding: 20px;
     }
+    
+    /* ===== HEADER ===== */
     .header {
-      text-align: center;
-      margin-bottom: 28px;
-    }
-    .header h1 {
-      font-size: 26px;
-      font-weight: 800;
-      color: #5da6d6;
-      margin-bottom: 6px;
-    }
-    .header p { color: #aaa; font-size: 13px; }
-    .main-container {
-      display: grid;
-      grid-template-columns: 1fr 380px;
-      gap: 24px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    @media (max-width: 900px) {
-      .main-container { grid-template-columns: 1fr; }
-      .cart-section { position: static !important; max-height: none !important; }
-    }
-    .products-section {
       background: #fff;
-      border-radius: 20px;
-      padding: 24px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      padding: 14px 16px;
+      text-align: center;
+      border-bottom: 1px solid #eee;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
+    .header h1 { font-size: 16px; font-weight: 700; color: #5da6d6; }
+    .header p { color: #bbb; font-size: 10px; margin-top: 2px; }
+    
+    /* ===== MAIN CONTENT ===== */
+    .main-content {
+      padding: 12px;
+      padding-bottom: 90px;
+    }
+    
+    /* ===== CATEGORY TABS ===== */
     .category-tabs {
       display: flex;
       gap: 8px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
+      margin-bottom: 14px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      -webkit-overflow-scrolling: touch;
     }
+    .category-tabs::-webkit-scrollbar { display: none; }
     .category-btn {
-      padding: 8px 16px;
-      border-radius: 20px;
+      padding: 7px 14px;
+      border-radius: 18px;
       border: none;
-      background: #f0f4f8;
+      background: #fff;
       color: #888;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.2s;
-      font-size: 13px;
+      font-size: 12px;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
-    .category-btn.active {
-      background: #5da6d6;
-      color: #fff;
-    }
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-      gap: 14px;
-    }
+    .category-btn.active { background: #5da6d6; color: #fff; }
+    
+    /* ===== PRODUCTS LIST (Mobile: Horizontal Cards) ===== */
+    .products-list { display: flex; flex-direction: column; gap: 10px; }
+    
     .product-card {
       background: #fff;
-      border-radius: 16px;
+      border-radius: 14px;
       padding: 12px;
-      position: relative;
-      border: 1px solid #eef2f6;
-      transition: all 0.2s;
-    }
-    .product-card:hover {
-      border-color: #d0e4f0;
-      box-shadow: 0 4px 16px rgba(93, 166, 214, 0.12);
-    }
-    .category-badge {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      padding: 3px 8px;
-      border-radius: 10px;
-      font-size: 10px;
-      font-weight: 700;
-      z-index: 1;
+      display: flex;
+      gap: 12px;
+      align-items: center;
     }
     .product-image {
-      width: 100%;
-      aspect-ratio: 1;
-      border-radius: 12px;
+      width: 80px;
+      height: 80px;
+      border-radius: 10px;
       overflow: hidden;
-      margin-bottom: 10px;
+      flex-shrink: 0;
       background: #f8fafb;
     }
-    .product-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+    .product-image img { width: 100%; height: 100%; object-fit: cover; }
+    .product-info { flex: 1; min-width: 0; }
+    .product-top { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+    .category-badge {
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-size: 9px;
+      font-weight: 700;
     }
     .product-name {
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 600;
       color: #333;
       margin-bottom: 4px;
-      line-height: 1.3;
     }
     .product-price {
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 700;
       color: #5da6d6;
-      margin-bottom: 10px;
     }
+    .product-actions { flex-shrink: 0; }
     .add-btn {
-      width: 100%;
-      padding: 9px;
+      padding: 10px 16px;
       border-radius: 10px;
       border: none;
       background: #ffe8ec;
@@ -125,118 +105,165 @@
       font-size: 13px;
       font-weight: 700;
       cursor: pointer;
-      transition: all 0.2s;
     }
-    .add-btn:hover { background: #ffd9e0; }
-    .character-select { margin-top: 8px; }
-    .character-select-title {
-      font-size: 11px;
-      color: #888;
-      margin-bottom: 6px;
-      text-align: center;
-      font-weight: 500;
-    }
-    .character-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 4px;
-    }
+    
+    /* Character Select */
+    .character-select { text-align: center; }
+    .character-select-title { font-size: 10px; color: #888; margin-bottom: 6px; }
+    .character-grid { display: flex; gap: 4px; }
     .char-btn {
-      padding: 6px 2px;
+      padding: 6px 8px;
       border-radius: 8px;
-      border: 2px solid #eee;
+      border: 1px solid #eee;
       background: #fafafa;
       cursor: pointer;
-      transition: all 0.15s;
       font-size: 9px;
       font-weight: 600;
       color: #555;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
     }
-    .char-btn:hover { border-color: #ccc; }
-    .char-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      margin: 0 auto 3px;
-    }
+    .char-dot { width: 10px; height: 10px; border-radius: 50%; }
     .cancel-btn {
-      width: 100%;
       margin-top: 6px;
-      padding: 5px;
+      padding: 4px 10px;
       border-radius: 6px;
       border: none;
       background: #f0f0f0;
       color: #999;
-      font-size: 11px;
+      font-size: 10px;
       cursor: pointer;
     }
-    .cart-section {
+    
+    /* ===== BOTTOM NAV BAR ===== */
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
       background: #fff;
-      border-radius: 20px;
-      padding: 20px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      border-top: 1px solid #eee;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 200;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+    }
+    .bottom-bar-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+    .cart-icon {
+      position: relative;
+      font-size: 24px;
+    }
+    .cart-badge {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      background: #e85a8c;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 10px;
+      min-width: 18px;
+      text-align: center;
+    }
+    .cart-summary { font-size: 14px; color: #333; }
+    .cart-summary strong { color: #e85a8c; font-weight: 700; }
+    .view-cart-btn {
+      padding: 12px 20px;
+      border-radius: 10px;
+      border: none;
+      background: #5da6d6;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .view-cart-btn:disabled { background: #ddd; }
+    
+    /* ===== CART MODAL ===== */
+    .cart-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.4);
+      z-index: 300;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s;
+    }
+    .cart-overlay.open { opacity: 1; visibility: visible; }
+    
+    .cart-modal {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: #fff;
+      border-radius: 20px 20px 0 0;
+      max-height: 80vh;
+      z-index: 301;
+      transform: translateY(100%);
+      transition: transform 0.3s ease-out;
       display: flex;
       flex-direction: column;
-      max-height: calc(100vh - 140px);
-      position: sticky;
-      top: 20px;
     }
-    .cart-header {
+    .cart-modal.open { transform: translateY(0); }
+    
+    .cart-modal-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid #eee;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 16px;
     }
-    .cart-title {
-      font-size: 17px;
-      font-weight: 700;
-      color: #333;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    .cart-modal-title { font-size: 17px; font-weight: 700; color: #333; }
+    .cart-modal-close {
+      width: 32px; height: 32px;
+      border: none; background: #f5f5f5;
+      border-radius: 50%; cursor: pointer;
+      font-size: 18px; color: #999;
     }
-    .cart-count {
-      background: #e85a8c;
-      color: white;
-      padding: 2px 9px;
-      border-radius: 12px;
-      font-size: 12px;
-      font-weight: 600;
-    }
-    .clear-btn {
+    .clear-all-btn {
       padding: 6px 12px;
-      border-radius: 10px;
+      border-radius: 8px;
       border: none;
       background: #fff0f0;
       color: #e85a8c;
       font-size: 12px;
-      cursor: pointer;
       font-weight: 600;
+      cursor: pointer;
     }
-    .cart-items {
+    
+    .cart-modal-body {
       flex: 1;
       overflow-y: auto;
-      margin-bottom: 14px;
+      padding: 16px;
     }
     .cart-empty {
       text-align: center;
       padding: 40px 20px;
       color: #bbb;
     }
-    .cart-empty-icon { font-size: 48px; margin-bottom: 12px; }
+    .cart-empty-icon { font-size: 48px; margin-bottom: 10px; }
+    
     .cart-item {
       display: flex;
       align-items: center;
       gap: 10px;
-      padding: 10px;
+      padding: 12px;
       background: #f8fafb;
       border-radius: 12px;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
     .cart-item-image {
-      width: 50px;
-      height: 50px;
-      border-radius: 10px;
+      width: 50px; height: 50px;
+      border-radius: 8px;
       overflow: hidden;
       flex-shrink: 0;
     }
@@ -246,98 +273,135 @@
       font-size: 13px;
       font-weight: 600;
       color: #333;
+      margin-bottom: 2px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      margin-bottom: 2px;
     }
     .cart-item-char {
       display: inline-block;
       font-size: 10px;
       font-weight: 600;
       color: #fff;
-      padding: 2px 7px;
-      border-radius: 6px;
-      margin-bottom: 3px;
+      padding: 2px 6px;
+      border-radius: 5px;
+      margin-bottom: 2px;
     }
-    .cart-item-price {
-      font-size: 14px;
-      font-weight: 700;
-      color: #5da6d6;
-    }
-    .qty-controls {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
+    .cart-item-price { font-size: 14px; font-weight: 700; color: #5da6d6; }
+    .qty-controls { display: flex; align-items: center; gap: 6px; }
     .qty-btn {
-      width: 26px;
-      height: 26px;
-      border-radius: 7px;
+      width: 28px; height: 28px;
+      border-radius: 8px;
       border: none;
       cursor: pointer;
-      font-size: 15px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      font-size: 16px;
       font-weight: 600;
     }
     .qty-btn.minus { background: #e8e8e8; color: #666; }
-    .qty-btn.plus { background: #5da6d6; color: white; }
-    .qty-value {
-      min-width: 24px;
-      text-align: center;
-      font-weight: 700;
-      font-size: 14px;
-      color: #333;
-    }
+    .qty-btn.plus { background: #5da6d6; color: #fff; }
+    .qty-value { min-width: 24px; text-align: center; font-weight: 700; font-size: 14px; }
     .remove-btn {
-      width: 26px;
-      height: 26px;
-      border-radius: 7px;
-      border: none;
-      background: transparent;
-      color: #ccc;
+      width: 28px; height: 28px;
+      border: none; background: none;
+      color: #ccc; font-size: 20px;
       cursor: pointer;
-      font-size: 17px;
     }
     .remove-btn:hover { color: #e85a8c; }
-    .cart-footer {
+    
+    .cart-modal-footer {
+      padding: 16px 20px;
       border-top: 1px solid #eee;
-      padding-top: 16px;
+      background: #fff;
     }
     .cart-total {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
-    .total-label { color: #888; font-size: 13px; }
-    .total-amount {
-      font-size: 24px;
-      font-weight: 800;
-      color: #e85a8c;
-    }
+    .total-label { color: #888; font-size: 14px; }
+    .total-amount { font-size: 24px; font-weight: 800; color: #e85a8c; }
     .save-btn {
       width: 100%;
       padding: 14px;
       border-radius: 12px;
       border: none;
       background: #5da6d6;
-      color: white;
+      color: #fff;
       font-size: 15px;
       font-weight: 700;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
     }
-    .save-btn:hover { background: #4a95c5; }
-    .save-btn:disabled {
-      background: #ddd;
-      cursor: not-allowed;
+    .save-btn:disabled { background: #ddd; }
+    
+    /* ===== DESKTOP STYLES ===== */
+    @media (min-width: 768px) {
+      body { padding-bottom: 0; }
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 360px;
+        gap: 24px;
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 20px;
+        padding-bottom: 20px;
+      }
+      .products-section { order: 1; }
+      .products-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+      .product-card {
+        flex-direction: column;
+        padding: 12px;
+      }
+      .product-image { width: 100%; height: auto; aspect-ratio: 1; }
+      .product-info { width: 100%; }
+      .product-actions { width: 100%; margin-top: 8px; }
+      .add-btn { width: 100%; }
+      .character-grid { justify-content: center; }
+      
+      /* Desktop Cart Sidebar */
+      .desktop-cart {
+        order: 2;
+        background: #fff;
+        border-radius: 16px;
+        padding: 20px;
+        height: fit-content;
+        position: sticky;
+        top: 80px;
+      }
+      .desktop-cart-title {
+        font-size: 17px;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .desktop-cart-count {
+        background: #e85a8c;
+        color: #fff;
+        padding: 2px 8px;
+        border-radius: 10px;
+        font-size: 12px;
+      }
+      .desktop-cart-items {
+        max-height: 400px;
+        overflow-y: auto;
+        margin-bottom: 16px;
+      }
+      .bottom-bar { display: none; }
+      .cart-overlay, .cart-modal { display: none; }
+      .header h1 { font-size: 20px; }
     }
+    
+    @media (min-width: 1024px) {
+      .products-list { grid-template-columns: repeat(3, 1fr); }
+    }
+    
     .hidden { display: none !important; }
   </style>
 </head>
@@ -347,30 +411,59 @@
     <p>© VLAST © IPX</p>
   </div>
 
-  <div class="main-container">
+  <div class="main-content">
     <div class="products-section">
       <div class="category-tabs" id="categoryTabs"></div>
-      <div class="products-grid" id="productsGrid"></div>
+      <div class="products-list" id="productsList"></div>
     </div>
+    
+    <!-- Desktop Cart Sidebar -->
+    <div class="desktop-cart" id="desktopCart">
+      <div class="desktop-cart-title">
+        🧺 내 장바구니
+        <span class="desktop-cart-count hidden" id="desktopCartCount">0</span>
+        <button class="clear-all-btn hidden" id="desktopClearBtn" onclick="clearCart()" style="margin-left:auto;">전체삭제</button>
+      </div>
+      <div class="desktop-cart-items" id="desktopCartItems"></div>
+      <div class="cart-total">
+        <span class="total-label">총 <span id="desktopTotalItems">0</span>개</span>
+        <span class="total-amount">₩<span id="desktopTotalAmount">0</span></span>
+      </div>
+      <button class="save-btn" id="desktopSaveBtn" onclick="saveAsImage()" disabled>📸 이미지로 저장</button>
+    </div>
+  </div>
 
-    <div class="cart-section">
-      <div class="cart-header">
-        <h2 class="cart-title">
-          🧺 내 장바구니
-          <span class="cart-count hidden" id="cartCount">0</span>
-        </h2>
-        <button class="clear-btn hidden" id="clearBtn" onclick="clearCart()">전체 삭제</button>
+  <!-- Mobile Bottom Bar -->
+  <div class="bottom-bar">
+    <div class="bottom-bar-left" onclick="openCart()">
+      <div class="cart-icon">
+        🛒
+        <span class="cart-badge hidden" id="cartBadge">0</span>
       </div>
-      <div class="cart-items" id="cartItems"></div>
-      <div class="cart-footer">
-        <div class="cart-total">
-          <span class="total-label">총 <span id="totalItems">0</span>개 상품</span>
-          <span class="total-amount">₩<span id="totalAmount">0</span></span>
-        </div>
-        <button class="save-btn" id="saveBtn" onclick="saveAsImage()" disabled>
-          📸 이미지로 저장하기
-        </button>
+      <div class="cart-summary">
+        <span id="mobileItemCount">0</span>개 · <strong>₩<span id="mobileTotalAmount">0</span></strong>
       </div>
+    </div>
+    <button class="view-cart-btn" id="viewCartBtn" onclick="openCart()" disabled>장바구니 보기</button>
+  </div>
+
+  <!-- Mobile Cart Modal -->
+  <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+  <div class="cart-modal" id="cartModal">
+    <div class="cart-modal-header">
+      <span class="cart-modal-title">🧺 내 장바구니</span>
+      <div>
+        <button class="clear-all-btn hidden" id="mobileClearBtn" onclick="clearCart()">전체삭제</button>
+        <button class="cart-modal-close" onclick="closeCart()">✕</button>
+      </div>
+    </div>
+    <div class="cart-modal-body" id="mobileCartItems"></div>
+    <div class="cart-modal-footer">
+      <div class="cart-total">
+        <span class="total-label">총 <span id="modalTotalItems">0</span>개 상품</span>
+        <span class="total-amount">₩<span id="modalTotalAmount">0</span></span>
+      </div>
+      <button class="save-btn" id="mobileSaveBtn" onclick="saveAsImage()" disabled>📸 이미지로 저장하기</button>
     </div>
   </div>
 
@@ -468,18 +561,22 @@ function setCategory(cat) {
 }
 
 function renderProducts() {
-  const grid = document.getElementById('productsGrid');
+  const list = document.getElementById('productsList');
   const filtered = activeCategory === 'all' ? products : products.filter(p => p.category === activeCategory);
   
-  grid.innerHTML = filtered.map(p => `
+  list.innerHTML = filtered.map(p => `
     <div class="product-card">
-      <div class="category-badge" style="background:${categoryBadgeColors[p.category].bg};color:${categoryBadgeColors[p.category].text}">${categoryLabels[p.category]}</div>
       <div class="product-image">
         <img src="${IMAGES[p.image]}" alt="${p.name}">
       </div>
-      <div class="product-name">${p.name}</div>
-      <div class="product-price">₩${p.price.toLocaleString()}</div>
-      <div id="actions-${p.id}">
+      <div class="product-info">
+        <div class="product-top">
+          <span class="category-badge" style="background:${categoryBadgeColors[p.category].bg};color:${categoryBadgeColors[p.category].text}">${categoryLabels[p.category]}</span>
+        </div>
+        <div class="product-name">${p.name}</div>
+        <div class="product-price">₩${p.price.toLocaleString()}</div>
+      </div>
+      <div class="product-actions" id="actions-${p.id}">
         <button class="add-btn" onclick="handleAdd(${p.id})">+ 담기</button>
       </div>
     </div>
@@ -499,7 +596,7 @@ function showCharacterSelect(productId) {
   const container = document.getElementById(`actions-${productId}`);
   container.innerHTML = `
     <div class="character-select">
-      <div class="character-select-title">캐릭터 선택 ✨</div>
+      <div class="character-select-title">캐릭터 선택</div>
       <div class="character-grid">
         ${characters.map(char => `
           <button class="char-btn" onclick="addToCart(${productId}, '${char}')">
@@ -550,56 +647,74 @@ function clearCart() {
   renderCart();
 }
 
+function openCart() {
+  document.getElementById('cartOverlay').classList.add('open');
+  document.getElementById('cartModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeCart() {
+  document.getElementById('cartOverlay').classList.remove('open');
+  document.getElementById('cartModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
 function renderCart() {
   const items = Object.values(cart);
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
   const totalAmount = items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
   
-  const cartCountEl = document.getElementById('cartCount');
-  const clearBtnEl = document.getElementById('clearBtn');
-  const totalItemsEl = document.getElementById('totalItems');
-  const totalAmountEl = document.getElementById('totalAmount');
-  const saveBtnEl = document.getElementById('saveBtn');
-  const cartItemsEl = document.getElementById('cartItems');
-
-  cartCountEl.textContent = totalItems;
-  cartCountEl.classList.toggle('hidden', totalItems === 0);
-  clearBtnEl.classList.toggle('hidden', items.length === 0);
-  totalItemsEl.textContent = totalItems;
-  totalAmountEl.textContent = totalAmount.toLocaleString();
-  saveBtnEl.disabled = items.length === 0;
+  // Mobile bottom bar
+  document.getElementById('cartBadge').textContent = totalItems;
+  document.getElementById('cartBadge').classList.toggle('hidden', totalItems === 0);
+  document.getElementById('mobileItemCount').textContent = totalItems;
+  document.getElementById('mobileTotalAmount').textContent = totalAmount.toLocaleString();
+  document.getElementById('viewCartBtn').disabled = items.length === 0;
   
-  if (items.length === 0) {
-    cartItemsEl.innerHTML = `
-      <div class="cart-empty">
-        <div class="cart-empty-icon">🛍️</div>
-        <p style="font-size:15px;font-weight:500;">장바구니가 비어있어요</p>
-        <p style="margin-top:6px;font-size:13px;">귀여운 굿즈를 담아보세요!</p>
+  // Mobile modal
+  document.getElementById('mobileClearBtn').classList.toggle('hidden', items.length === 0);
+  document.getElementById('modalTotalItems').textContent = totalItems;
+  document.getElementById('modalTotalAmount').textContent = totalAmount.toLocaleString();
+  document.getElementById('mobileSaveBtn').disabled = items.length === 0;
+  
+  // Desktop sidebar
+  document.getElementById('desktopCartCount').textContent = totalItems;
+  document.getElementById('desktopCartCount').classList.toggle('hidden', totalItems === 0);
+  document.getElementById('desktopClearBtn').classList.toggle('hidden', items.length === 0);
+  document.getElementById('desktopTotalItems').textContent = totalItems;
+  document.getElementById('desktopTotalAmount').textContent = totalAmount.toLocaleString();
+  document.getElementById('desktopSaveBtn').disabled = items.length === 0;
+  
+  const cartHTML = items.length === 0 ? `
+    <div class="cart-empty">
+      <div class="cart-empty-icon">🛍️</div>
+      <p style="font-size:14px;font-weight:500;">장바구니가 비어있어요</p>
+      <p style="margin-top:4px;font-size:12px;">굿즈를 담아보세요!</p>
+    </div>
+  ` : items.map(item => {
+    const key = item.character ? `${item.productId}-${item.character}` : `${item.productId}`;
+    return `
+      <div class="cart-item">
+        <div class="cart-item-image">
+          <img src="${IMAGES[item.product.image]}" alt="${item.product.name}">
+        </div>
+        <div class="cart-item-info">
+          <div class="cart-item-name">${item.product.name}</div>
+          ${item.character ? `<div class="cart-item-char" style="background:${characterColors[item.character]}">${item.character}</div>` : ''}
+          <div class="cart-item-price">₩${(item.product.price * item.quantity).toLocaleString()}</div>
+        </div>
+        <div class="qty-controls">
+          <button class="qty-btn minus" onclick="updateQuantity('${key}', -1)">-</button>
+          <span class="qty-value">${item.quantity}</span>
+          <button class="qty-btn plus" onclick="updateQuantity('${key}', 1)">+</button>
+        </div>
+        <button class="remove-btn" onclick="removeFromCart('${key}')">×</button>
       </div>
     `;
-  } else {
-    cartItemsEl.innerHTML = items.map(item => {
-      const key = item.character ? `${item.productId}-${item.character}` : `${item.productId}`;
-      return `
-        <div class="cart-item">
-          <div class="cart-item-image">
-            <img src="${IMAGES[item.product.image]}" alt="${item.product.name}">
-          </div>
-          <div class="cart-item-info">
-            <div class="cart-item-name">${item.product.name}</div>
-            ${item.character ? `<div class="cart-item-char" style="background:${characterColors[item.character]}">${item.character}</div>` : ''}
-            <div class="cart-item-price">₩${(item.product.price * item.quantity).toLocaleString()}</div>
-          </div>
-          <div class="qty-controls">
-            <button class="qty-btn minus" onclick="updateQuantity('${key}', -1)">-</button>
-            <span class="qty-value">${item.quantity}</span>
-            <button class="qty-btn plus" onclick="updateQuantity('${key}', 1)">+</button>
-          </div>
-          <button class="remove-btn" onclick="removeFromCart('${key}')">×</button>
-        </div>
-      `;
-    }).join('');
-  }
+  }).join('');
+  
+  document.getElementById('mobileCartItems').innerHTML = cartHTML;
+  document.getElementById('desktopCartItems').innerHTML = cartHTML;
 }
 
 function saveAsImage() {
@@ -617,26 +732,23 @@ function saveAsImage() {
   canvas.width = width;
   canvas.height = height;
   
-  // Background
   ctx.fillStyle = '#f5f9fc';
   ctx.fillRect(0, 0, width, height);
   
-  // Header
   ctx.fillStyle = '#fff';
   ctx.beginPath();
   ctx.roundRect(padding, padding, width - padding * 2, 60, 12);
   ctx.fill();
   
   ctx.fillStyle = '#5da6d6';
-  ctx.font = 'bold 18px system-ui, sans-serif';
+  ctx.font = 'bold 16px system-ui, sans-serif';
   ctx.textAlign = 'center';
-  ctx.fillText('🛒 PLAVE x Line Friends 굿즈', width / 2, padding + 32);
+  ctx.fillText('🛒 PLAVE x Line Friends 굿즈', width / 2, padding + 30);
   
   ctx.fillStyle = '#aaa';
-  ctx.font = '12px system-ui';
-  ctx.fillText(new Date().toLocaleDateString('ko-KR'), width / 2, padding + 50);
+  ctx.font = '11px system-ui';
+  ctx.fillText(new Date().toLocaleDateString('ko-KR'), width / 2, padding + 48);
   
-  // Items
   let y = headerHeight + 10;
   ctx.textAlign = 'left';
   
@@ -686,7 +798,6 @@ function saveAsImage() {
     ctx.textAlign = 'left';
   });
   
-  // Footer
   const footerY = height - footerHeight;
   ctx.fillStyle = '#fff';
   ctx.beginPath();
@@ -708,11 +819,12 @@ function saveAsImage() {
   ctx.textAlign = 'center';
   ctx.fillText('© VLAST © IPX', width / 2, height - 10);
   
-  // Download
   const link = document.createElement('a');
   link.download = `plave-goods-${Date.now()}.png`;
   link.href = canvas.toDataURL('image/png');
   link.click();
+  
+  closeCart();
 }
 
 init();
